@@ -1,0 +1,33 @@
+﻿<Window x:Class="FileHasher.ExportProgressDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileHasher"
+        mc:Ignorable="d"
+        Title="Exporting Progress" 
+        Height="300"
+        Width="800"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="60*"/>
+            <ColumnDefinition Width="20*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="20*"/>
+        </Grid.RowDefinitions>
+
+        <ProgressBar Grid.Column="1" Grid.Row="0" Name="cp" Value="{Binding CurrentProgress, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10"/>
+        <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding CurrentFileNumber, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10"/>
+        <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding CurrentFileName}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10"/>
+        <Button Grid.Column="1" Grid.Row="3" Content="_Done" IsEnabled="{Binding Working}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="100,10,100,10" Click="ButtonDone_Click"/>
+    </Grid>
+</Window>

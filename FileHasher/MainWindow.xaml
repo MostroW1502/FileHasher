@@ -1,0 +1,108 @@
+﻿<Window x:Class="FileHasher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileHasher"
+        mc:Ignorable="d"
+        Title="FileHasher" 
+        Height="450" 
+        Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <local:UIntToHexConverter x:Key="UIntToHexConverter"/>
+        <local:ByteArrayConverter x:Key="ByteArrayConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="90*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Menu x:Name="PreferenceMenu" Grid.Row="0">
+                <MenuItem Header="_Preferences" IsEnabled="{Binding FileHasherData.EnableMenu}">
+                    <MenuItem Header="_Columns">
+                        <MenuItem Header="CRC32" IsCheckable="True" IsChecked="{Binding Preferences.CheckCRC32}" Click="ColPrefClicked"/>
+                        <MenuItem Header="MD5" IsCheckable="True" IsChecked="{Binding Preferences.CheckMD5}" Click="ColPrefClicked"/>
+                        <MenuItem Header="SHA1" IsCheckable="True" IsChecked="{Binding Preferences.CheckSHA1}" Click="ColPrefClicked"/>
+                        <MenuItem Header="SHA256" IsCheckable="True" IsChecked="{Binding Preferences.CheckSHA256}" Click="ColPrefClicked"/>
+                        <MenuItem Header="SHA384" IsCheckable="True" IsChecked="{Binding Preferences.CheckSHA384}" Click="ColPrefClicked"/>
+                        <MenuItem Header="SHA512" IsCheckable="True" IsChecked="{Binding Preferences.CheckSHA512}" Click="ColPrefClicked"/>
+                        <Separator/>
+                        <MenuItem Header="_Enable All" Name="mnuEnableAll" Click="EnableAllColumns"/>
+                        <MenuItem Header="_Disable All" Name="mnuDisableAll" Click="DisableAllColumns"/>
+                    </MenuItem>
+                    <MenuItem Header="_Include File Path" IsCheckable="True" IsChecked="{Binding Preferences.IncludeFilePath}" Click="ColPrefClicked"/>
+                    <Separator/>
+                    <MenuItem Header="_Exit" Click="AppExit_Click"/>
+                </MenuItem>
+            </Menu>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="81*"/>
+                <ColumnDefinition Width="138*"/>
+                <ColumnDefinition Width="145*"/>
+                <ColumnDefinition Width="145*"/>
+                <ColumnDefinition Width="145*"/>
+                <ColumnDefinition Width="145*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" Content="Files:" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+            <Label Grid.Column="1" Content="{Binding FileHasherData.FilesTotal}" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="77,0,0,0"/>
+
+            <Button Grid.Column="2" 
+                    Content="_Clear" 
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" 
+                    Margin="3" 
+                    Name="ButtonClear" 
+                    IsEnabled="{Binding FileHasherData.ButtonEnabled}"
+                    Click="ButtonClear_Click"/>
+
+            <Button Grid.Column="3"
+                    Content="_Export Folder"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Margin="3"
+                    Name="ButtonExportFolder"
+                    Click="ButtonExportFolder_Click"/>
+
+            <Button Grid.Column="4" 
+                    Content="_Go" 
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" 
+                    Margin="3" 
+                    Name="ButtonGo" 
+                    IsEnabled="{Binding FileHasherData.ButtonGoEnabled}" 
+                    Click="ButtonGo_Click"/>
+
+            <Button Grid.Column="5" 
+                    Content="_Export" 
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" 
+                    Margin="3" 
+                    Name="ButtonExport" 
+                    IsEnabled="{Binding FileHasherData.ButtonEnabled}" 
+                    Click="ButtonExport_Click"/>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <DataGrid Name="FileGrid" ColumnWidth="*" AutoGenerateColumns="False" AllowDrop="True" IsReadOnly="True" Drop="FileGrid_Drop">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="FileName" Binding="{Binding FileName}"/>
+                    <DataGridTextColumn Header="FilePath" Binding="{Binding FilePath}"/>
+                    <DataGridTextColumn Header="CRC32" Binding="{Binding CheckSums.CRC32, Converter={StaticResource UIntToHexConverter}}"/>
+                    <DataGridTextColumn Header="MD5" Binding="{Binding CheckSums.MD5Hash, Converter={StaticResource ByteArrayConverter}}"/>
+                    <DataGridTextColumn Header="SHA1" Binding="{Binding CheckSums.SHA1Hash, Converter={StaticResource ByteArrayConverter}}"/>
+                    <DataGridTextColumn Header="SHA256" Binding="{Binding CheckSums.SHA256Hash, Converter={StaticResource ByteArrayConverter}}"/>
+                    <DataGridTextColumn Header="SHA384" Binding="{Binding CheckSums.SHA384Hash, Converter={StaticResource ByteArrayConverter}}"/>
+                    <DataGridTextColumn Header="SHA512" Binding="{Binding CheckSums.SHA512Hash, Converter={StaticResource ByteArrayConverter}}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</Window>
